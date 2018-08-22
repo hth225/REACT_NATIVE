@@ -11,4 +11,5 @@ Building Apps with React Native
 - [React Native](https://facebook.github.io/react-native/)
 
 ### What is Expo?
-- 
+- Helps to build apps with React Native without having to deal with xcode and android studio
+- Manages simulator for Android studio and IOS (without Xcode)
