@@ -4,16 +4,29 @@ import Weather from "./Weather";
 
 export default class App extends Component {
   state = {
-    isLoaded: true
+    isLoaded: false
   };
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        this.setState({
+          isLoaded: true
+        });
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
   render() {
     const { isLoaded } = this.state;
     return (
       <View style={styles.container}>
-        <StatusBar hidden={true}/>
-        {isLoaded ? <Weather/> : (
+        <StatusBar hidden={true} />
+        {isLoaded ? (
+          <Weather />
+        ) : (
           <View style={styles.loading}>
-            
             <Text style={styles.loadingText}>날씨 불러오는 중</Text>
           </View>
         )}
@@ -37,6 +50,5 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 30,
     paddingTop: 120
-  },
-
+  }
 });
