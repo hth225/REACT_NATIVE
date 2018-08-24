@@ -4,17 +4,19 @@ import Weather from "./Weather";
 import { LinearGradient } from "expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+const API_KEY = "b4a1600824cfc14f914f7e6b81592824";
+
 export default class App extends Component {
   state = {
     isLoaded: false,
-    error: null
+    error: null,
+    temperature: null,
+    name: null,
   };
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       position => {
-        this.setState({
-          isLoaded: true,
-        });
+        this._getWeather(position.coords.latitude, position.coords.longitude);
       },
       error => {
         this.setState({
@@ -23,6 +25,20 @@ export default class App extends Component {
       }
     );
   }
+  _getWeather = (lat, long) => {
+    fetch(
+      `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&APPID=${API_KEY}`
+    )
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        this.setState({
+          temperature: json.main.temp,
+          name: json.weather[0].main,
+          isLoaded: true,
+        })
+      });
+  };
   render() {
     const { isLoaded, error } = this.state;
     return (
@@ -32,7 +48,7 @@ export default class App extends Component {
           <Weather />
         ) : (
           <LinearGradient
-            colors={["#a18cd1", "#fbc2eb"]}
+            colors={["#fbc2eb", "#a18cd1"]}
             style={styles.loading}
           >
             <View style={styles.loading}>
@@ -40,7 +56,7 @@ export default class App extends Component {
                 Getting Current Location...
               </Text>
               {error ? (
-                <View >
+                <View>
                   <MaterialCommunityIcons
                     color="red"
                     size={144}
@@ -60,7 +76,8 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#fff",
+    
     // Default value of flexDirection is 'column'
   },
   errorText: {
