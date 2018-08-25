@@ -12,16 +12,16 @@ const weatherCases = {
     icon: "weather-pouring"
   },
   Clear: {
-    colors: ["#FFFFFF", "#6DD5FA", "#2980B9"],
+    colors: ["#FDC830", "#F37335"],
     title: "Nice Weather",
     subtitle: "Well, might be little hot",
     icon: "weather-sunny"
   },
-  ThunderStorm: {
-    colors: ["#00ECBC", "#007ADF"],
+  Thunderstorm: {
+    colors: ["#2c3e50", "#bdc3c7"],
     title: "Thunderstorm in your area",
     subtitle: "Don't be scared",
-    icon: "weather-lightning-rainy"
+    icon: "weather-lightning"
   },
   Clouds: {
     colors: ["#4B79A1", "#283E51"],
@@ -47,7 +47,12 @@ const weatherCases = {
     subtitle: "Looks like a oldschool horror movie",
     icon: "weather-fog"
   },
-
+  Mist: {
+    colors: ["#606c88", "#3f4c6b"],
+    title: "Mist",
+    subtitle: "Watch your steps",
+    icon: "weather-fog"
+  }
 };
 
 function Weather({ weatherName, temp }) {
@@ -67,6 +72,7 @@ function Weather({ weatherName, temp }) {
       </View>
       <View style={styles.lower}>
         <Text style={styles.title}>{weatherCases[weatherName].title}</Text>
+        
         <Text style={styles.subtitle}>
           {weatherCases[weatherName].subtitle}
         </Text>
@@ -77,7 +83,7 @@ function Weather({ weatherName, temp }) {
 
 Weather.proptypes = {
   temp: PropTypes.number.isRequired,
-  weatherName: PropTypes.string.isRequired,
+  weatherName: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({

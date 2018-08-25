@@ -12,6 +12,7 @@ export default class App extends Component {
     error: null,
     temperature: null,
     name: null,
+    
   };
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
@@ -35,17 +36,19 @@ export default class App extends Component {
         this.setState({
           temperature: json.main.temp,
           name: json.weather[0].main,
+          
           isLoaded: true,
         })
       });
   };
   render() {
     const { isLoaded, error, temperature, name } = this.state;
+    
     return (
       <View style={styles.container}>
         <StatusBar hidden={true} />
         {isLoaded ? (
-          <Weather weatherName={"Snow"} temp={Math.floor(temperature - 273.15)} />
+          <Weather weatherName={name} temp={Math.ceil(temperature - 273.15)} />
         ) : (
           <LinearGradient
             colors={["#FD746C", "#2C3E50"]}
