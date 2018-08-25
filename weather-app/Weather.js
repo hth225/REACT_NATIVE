@@ -1,24 +1,85 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from "expo";
-import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
-class Weather extends Component {
-  render() {
-    return (
-      <LinearGradient colors={["#00C6FB", "#005BEA"]} style={styles.container}>
-        <View style={styles.upper}>
-          <Ionicons color="white" size={144} name="ios-rainy-outline"/>
-          <Text style={styles.temp}>35˚</Text>
-        </View>
-        <View style={styles.lower}>
-          <Text style={styles.title}>Bring Your Umbrella</Text>
-          <Text style={styles.subtitle}>For more info, Look outside</Text>
-        </View>
-      </LinearGradient>
-    );
-  }
+const weatherCases = {
+  Rain: {
+    colors: ["#283E51", "#4B79A1"],
+    title: "Bring Your Umbrella",
+    subtitle: "For more info, Look outside",
+    icon: "weather-pouring"
+  },
+  Clear: {
+    colors: ["#FFFFFF", "#6DD5FA", "#2980B9"],
+    title: "Nice Weather",
+    subtitle: "Well, might be little hot",
+    icon: "weather-sunny"
+  },
+  ThunderStorm: {
+    colors: ["#00ECBC", "#007ADF"],
+    title: "Thunderstorm in your area",
+    subtitle: "Don't be scared",
+    icon: "weather-lightning-rainy"
+  },
+  Clouds: {
+    colors: ["#4B79A1", "#283E51"],
+    title: "Clouds",
+    subtitle: "Just like a Great Britain",
+    icon: "weather-cloudy"
+  },
+  Snow: {
+    colors: ["#E6DADA", "#274046"],
+    title: "Here comes Snowman!",
+    subtitle: "With freezing cold",
+    icon: "weather-snowy"
+  },
+  Drizzle: {
+    colors: ["#4CA1AF", "#2C3E50"],
+    title: "Drizzle",
+    subtitle: "Looks like someone's tear",
+    icon: "weather-rainy"
+  },
+  Haze: {
+    colors: ["#3a6186", "#89253e"],
+    title: "Haze",
+    subtitle: "Looks like a oldschool horror movie",
+    icon: "weather-fog"
+  },
+
+};
+
+function Weather({ weatherName, temp }) {
+  console.log(weatherName);
+  return (
+    <LinearGradient
+      colors={weatherCases[weatherName].colors}
+      style={styles.container}
+    >
+      <View style={styles.upper}>
+        <MaterialCommunityIcons
+          color="white"
+          size={144}
+          name={weatherCases[weatherName].icon}
+        />
+        <Text style={styles.temp}>{temp}˚</Text>
+      </View>
+      <View style={styles.lower}>
+        <Text style={styles.title}>{weatherCases[weatherName].title}</Text>
+        <Text style={styles.subtitle}>
+          {weatherCases[weatherName].subtitle}
+        </Text>
+      </View>
+    </LinearGradient>
+  );
 }
+
+Weather.proptypes = {
+  temp: PropTypes.number.isRequired,
+  weatherName: PropTypes.string.isRequired,
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -27,20 +88,19 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "transparent",
+    backgroundColor: "transparent"
   },
   temp: {
     fontSize: 50,
     backgroundColor: "transparent",
     color: "white",
-    marginTop: 10,
+    marginTop: 10
   },
   lower: {
     flex: 1,
     alignItems: "flex-start",
     justifyContent: "center",
-    paddingLeft: 25,
-    
+    paddingLeft: 25
   },
   title: {
     fontSize: 38,
@@ -52,8 +112,7 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 25,
     backgroundColor: "transparent",
-    color: "white",
-    
+    color: "white"
   }
 });
 export default Weather;
