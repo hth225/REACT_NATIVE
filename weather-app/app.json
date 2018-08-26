@@ -24,7 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "io.github.hth225"
+    },
+    "android": {
+      "package": "io.github.hth225"
     }
+
   }
 }
