@@ -26,7 +26,8 @@ class ToDo extends Component {
     deleteTodo: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
     uncompleteTodo: PropTypes.func.isRequired,
-    completeTodo: PropTypes.func.isRequired
+    completeTodo: PropTypes.func.isRequired,
+    updateTodo: PropTypes.func.isRequired
   };
 
   render() {
@@ -97,11 +98,11 @@ class ToDo extends Component {
     );
   }
   _toggleComplete = () => {
-    const { iscompleted, uncompleteTodo, completeTodo, id } = this.props
-    if(iscompleted) {
-        uncompleteTodo(id)
+    const { iscompleted, uncompleteTodo, completeTodo, id } = this.props;
+    if (iscompleted) {
+      uncompleteTodo(id);
     } else {
-        completeTodo(id)
+      completeTodo(id);
     }
   };
   _startEditing = () => {
@@ -110,6 +111,9 @@ class ToDo extends Component {
     });
   };
   _finishEditing = () => {
+    const { todoValue } = this.state;
+    const { id, updateTodo } = this.props;
+    updateTodo(id, todoValue);
     this.setState({
       isEditing: false
     });

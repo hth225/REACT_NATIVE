@@ -53,6 +53,7 @@ export default class App extends React.Component {
                 deleteTodo={this._deleteTodo}
                 uncompleteTodo={this._uncompleteTodo}
                 completeTodo={this._completeTodo}
+                updateTodo={this._updateTodo}
                 {...toDo}
               />
             ))}
@@ -130,6 +131,21 @@ export default class App extends React.Component {
           [id]: {
             ...prevState.toDos[id],
             isCompleted: true
+          }
+        }
+      };
+      return { ...newState };
+    });
+  };
+  _updateTodo = (id, text) => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: {
+            ...prevState.toDos[id],
+            text: text
           }
         }
       };
