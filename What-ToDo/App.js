@@ -13,7 +13,6 @@ import { AppLoading } from "expo";
 import Todo from "./ToDo";
 import uuidv1 from "uuid/v1";
 
-
 const { width, height } = Dimensions.get("window");
 
 export default class App extends React.Component {
@@ -48,7 +47,15 @@ export default class App extends React.Component {
             onSubmitEditing={this._addToDo}
           />
           <ScrollView contentContainerStyle={styles.todo}>
-            {Object.values(toDos).map(toDo => <Todo key={toDo.id} {...toDo} deleteTodo={this._deleteTodo} /> )}
+            {Object.values(toDos).map(toDo => (
+              <Todo
+                key={toDo.id}
+                deleteTodo={this._deleteTodo}
+                uncompleteTodo={this._uncompleteTodo}
+                completeTodo={this._completeTodo}
+                {...toDo}
+              />
+            ))}
           </ScrollView>
         </View>
       </View>
@@ -95,6 +102,36 @@ export default class App extends React.Component {
       const newState = {
         ...prevState,
         ...toDos
+      };
+      return { ...newState };
+    });
+  };
+  _uncompleteTodo = id => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: {
+            ...prevState.toDos[id],
+            isCompleted: false
+          }
+        }
+      };
+      return { ...newState };
+    });
+  };
+  _completeTodo = id => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: {
+            ...prevState.toDos[id],
+            isCompleted: true
+          }
+        }
       };
       return { ...newState };
     });

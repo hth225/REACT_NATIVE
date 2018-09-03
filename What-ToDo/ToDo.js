@@ -24,12 +24,14 @@ class ToDo extends Component {
     text: PropTypes.string.isRequired,
     iscompleted: PropTypes.bool.isRequired,
     deleteTodo: PropTypes.func.isRequired,
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    uncompleteTodo: PropTypes.func.isRequired,
+    completeTodo: PropTypes.func.isRequired
   };
 
   render() {
-    const { isCompleted, isEditing, todoValue } = this.state;
-    const { text, id, deleteTodo } = this.props;
+    const { isEditing, todoValue } = this.state;
+    const { text, id, deleteTodo, iscompleted } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.column}>
@@ -80,7 +82,11 @@ class ToDo extends Component {
                 <Text stlye={styles.actionText}>✏️</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => {deleteTodo(id)}}>
+            <TouchableOpacity
+              onPress={() => {
+                deleteTodo(id);
+              }}
+            >
               <View style={styles.actionContainer}>
                 <Text stlye={styles.actionText}>❌</Text>
               </View>
@@ -91,11 +97,12 @@ class ToDo extends Component {
     );
   }
   _toggleComplete = () => {
-    this.setState(prevState => {
-      return {
-        isCompleted: !prevState.isCompleted
-      };
-    });
+    const { iscompleted, uncompleteTodo, completeTodo, id } = this.props
+    if(iscompleted) {
+        uncompleteTodo(id)
+    } else {
+        completeTodo(id)
+    }
   };
   _startEditing = () => {
     this.setState({
@@ -112,7 +119,6 @@ class ToDo extends Component {
       todoValue: text
     });
   };
-  
 }
 const styles = StyleSheet.create({
   container: {
