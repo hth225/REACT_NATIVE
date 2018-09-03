@@ -9,16 +9,25 @@ import {
   Platform,
   ScrollView
 } from "react-native";
-import Todo from './ToDo';
+import { AppLoading } from "expo";
+import Todo from "./ToDo";
 
 const { width, height } = Dimensions.get("window");
 
 export default class App extends React.Component {
   state = {
-    newTodo: ""
+    newTodo: "",
+    loadedTodos: false
   };
+
+  componentDidMount = () => {
+    this._loadToDos();
+  }
   render() {
-    const { newTodo } = this.state;
+    const { newTodo, loadedTodos } = this.state;
+    if (!loadedTodos) {
+      return <AppLoading />;
+    }
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
@@ -34,7 +43,7 @@ export default class App extends React.Component {
             autoCorrect={false}
           />
           <ScrollView contentContainerStyle={styles.todo}>
-            <Todo text={"Hello i'm a todo"}/>
+            <Todo text={"Hello i'm a todo"} />
           </ScrollView>
         </View>
       </View>
@@ -45,6 +54,12 @@ export default class App extends React.Component {
       newTodo: text
     });
   };
+  _loadToDos = () => {
+    
+    this.setState({
+      loadedTodos: true,
+    })
+  }
 }
 
 const styles = StyleSheet.create({
@@ -88,6 +103,6 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   todo: {
-    alignItems: "center",
+    alignItems: "center"
   }
 });

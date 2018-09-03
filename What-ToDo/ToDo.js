@@ -33,13 +33,13 @@ class ToDo extends Component {
           {isEditing ? (
             <TextInput
               style={[
-                styles.input,
                 styles.text,
+                styles.input,
                 isCompleted ? styles.completedText : styles.uncompletedText
               ]}
               value={todoValue}
               multiline={true}
-              onChangeText= {this._controllInput}
+              onChangeText={this._controllInput}
               returnKeyType={"done"}
               onBlur={this._finishEditing}
             />
@@ -99,10 +99,10 @@ class ToDo extends Component {
     });
   };
   _controllInput = text => {
-      this.setState({
-          todoValue: text,
-      })
-  }
+    this.setState({
+      todoValue: text
+    });
+  };
 }
 const styles = StyleSheet.create({
   container: {
@@ -153,7 +153,8 @@ const styles = StyleSheet.create({
   },
   input: {
     marginVertical: 15,
-    width: width / 2
+    width: width / 2,
+    paddingBottom: 5,
   }
 });
 export default ToDo;
