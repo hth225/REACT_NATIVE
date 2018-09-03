@@ -13,19 +13,22 @@ import { AppLoading } from "expo";
 import Todo from "./ToDo";
 import uuidv1 from "uuid/v1";
 
+
 const { width, height } = Dimensions.get("window");
 
 export default class App extends React.Component {
   state = {
     newTodo: "",
-    loadedTodos: false
+    loadedTodos: false,
+    toDos: {}
   };
 
   componentDidMount = () => {
     this._loadToDos();
   };
   render() {
-    const { newTodo, loadedTodos } = this.state;
+    const { newTodo, loadedTodos, toDos } = this.state;
+    console.log(toDos);
     if (!loadedTodos) {
       return <AppLoading />;
     }
@@ -45,7 +48,7 @@ export default class App extends React.Component {
             onSubmitEditing={this._addToDo}
           />
           <ScrollView contentContainerStyle={styles.todo}>
-            <Todo text={"Hello i'm a todo"} />
+            {Object.values(toDos).map(toDo => <Todo key={toDo.id} {...toDo} deleteTodo={this._deleteTodo} /> )}
           </ScrollView>
         </View>
       </View>
@@ -81,8 +84,19 @@ export default class App extends React.Component {
           ...prevState.toDos,
           ...newTodoObject
         }
-      }
-      return { ...newState }
+      };
+      return { ...newState };
+    });
+  };
+  _deleteTodo = id => {
+    this.setState(prevState => {
+      const toDos = prevState.toDos;
+      delete toDos[id];
+      const newState = {
+        ...prevState,
+        ...toDos
+      };
+      return { ...newState };
     });
   };
 }

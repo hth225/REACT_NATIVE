@@ -7,18 +7,29 @@ import {
   Dimensions
 } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import PropTypes from "prop-types";
 
 const { width, height } = Dimensions.get("window");
 
 class ToDo extends Component {
-  state = {
-    isEditing: false,
-    isCompleted: false,
-    todoValue: ""
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditing: false,
+      todoValue: props.text
+    };
+  }
+
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+    iscompleted: PropTypes.bool.isRequired,
+    deleteTodo: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired
   };
+
   render() {
     const { isCompleted, isEditing, todoValue } = this.state;
-    const { text } = this.props;
+    const { text, id, deleteTodo } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.column}>
@@ -69,7 +80,7 @@ class ToDo extends Component {
                 <Text stlye={styles.actionText}>✏️</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => {deleteTodo(id)}}>
               <View style={styles.actionContainer}>
                 <Text stlye={styles.actionText}>❌</Text>
               </View>
@@ -87,10 +98,8 @@ class ToDo extends Component {
     });
   };
   _startEditing = () => {
-    const { text } = this.props;
     this.setState({
-      isEditing: true,
-      todoValue: text
+      isEditing: true
     });
   };
   _finishEditing = () => {
@@ -103,6 +112,7 @@ class ToDo extends Component {
       todoValue: text
     });
   };
+  
 }
 const styles = StyleSheet.create({
   container: {
@@ -141,8 +151,7 @@ const styles = StyleSheet.create({
   column: {
     flexDirection: "row",
     alignItems: "center",
-    width: width / 2,
-    justifyContent: "space-between"
+    width: width / 2
   },
   actions: {
     flexDirection: "row"
@@ -154,7 +163,7 @@ const styles = StyleSheet.create({
   input: {
     marginVertical: 15,
     width: width / 2,
-    paddingBottom: 5,
+    paddingBottom: 5
   }
 });
 export default ToDo;
