@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, StatusBar } from "react-native";
-import Weather from "./Weather";
+import Weather from "./components/Weather";
 import { LinearGradient } from "expo";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
