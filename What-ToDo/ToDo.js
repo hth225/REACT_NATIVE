@@ -40,7 +40,7 @@ class ToDo extends Component {
             <View
               style={[
                 styles.circle,
-                isCompleted ? styles.completedCircle : styles.uncompletedCircle
+                iscompleted ? styles.completedCircle : styles.uncompletedCircle
               ]}
             />
           </TouchableOpacity>
@@ -49,7 +49,7 @@ class ToDo extends Component {
               style={[
                 styles.text,
                 styles.input,
-                isCompleted ? styles.completedText : styles.uncompletedText
+                iscompleted ? styles.completedText : styles.uncompletedText
               ]}
               value={todoValue}
               multiline={true}
@@ -61,7 +61,7 @@ class ToDo extends Component {
             <Text
               style={[
                 styles.text,
-                isCompleted ? styles.completedText : styles.uncompletedText
+                iscompleted ? styles.completedText : styles.uncompletedText
               ]}
             >
               {text}
