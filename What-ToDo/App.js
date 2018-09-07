@@ -7,7 +7,8 @@ import {
   TextInput,
   Dimensions,
   Platform,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from "react-native";
 import { AppLoading } from "expo";
 import Todo from "./ToDo";
@@ -93,6 +94,7 @@ export default class App extends React.Component {
           ...newTodoObject
         }
       };
+      this._saveTodos(newState.toDos);
       return { ...newState };
     });
   };
@@ -104,6 +106,7 @@ export default class App extends React.Component {
         ...prevState,
         ...toDos
       };
+      this._saveTodos(newState.toDos);
       return { ...newState };
     });
   };
@@ -119,6 +122,7 @@ export default class App extends React.Component {
           }
         }
       };
+      this._saveTodos(newState.toDos);
       return { ...newState };
     });
   };
@@ -134,6 +138,7 @@ export default class App extends React.Component {
           }
         }
       };
+      this._saveTodos(newState.toDos);
       return { ...newState };
     });
   };
@@ -149,8 +154,12 @@ export default class App extends React.Component {
           }
         }
       };
+      this._saveTodos(newState.toDos);
       return { ...newState };
     });
+  };
+  _saveTodos = newTodos => {
+    const saveTodos = AsyncStorage.setItem("toDos", JSON.stringify(newTodos));
   };
 }
 
