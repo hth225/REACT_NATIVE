@@ -48,16 +48,18 @@ export default class App extends React.Component {
             onSubmitEditing={this._addToDo}
           />
           <ScrollView contentContainerStyle={styles.todo}>
-            {Object.values(toDos).map(toDo => (
-              <Todo
-                key={toDo.id}
-                deleteTodo={this._deleteTodo}
-                uncompleteTodo={this._uncompleteTodo}
-                completeTodo={this._completeTodo}
-                updateTodo={this._updateTodo}
-                {...toDo}
-              />
-            ))}
+            {Object.values(toDos)
+              .reverse()
+              .map(toDo => (
+                <Todo
+                  key={toDo.id}
+                  deleteTodo={this._deleteTodo}
+                  uncompleteTodo={this._uncompleteTodo}
+                  completeTodo={this._completeTodo}
+                  updateTodo={this._updateTodo}
+                  {...toDo}
+                />
+              ))}
           </ScrollView>
         </View>
       </View>
@@ -68,10 +70,17 @@ export default class App extends React.Component {
       newTodo: text
     });
   };
-  _loadToDos = () => {
-    this.setState({
-      loadedTodos: true
-    });
+  _loadToDos = async () => {
+    try {
+      const toDos = await AsyncStorage.getItem("toDos");
+      const parsedToDos = JSON.parse(toDos);
+      this.setState({
+        loadedTodos: true,
+        toDos: parsedToDos
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
   _addToDo = () => {
     const { newTodo } = this.state;
@@ -81,7 +90,7 @@ export default class App extends React.Component {
       const newTodoObject = {
         [ID]: {
           id: ID,
-          isCompleted: false,
+          iscompleted: false,
           text: newTodo,
           createdAt: Date.now()
         }
@@ -118,7 +127,7 @@ export default class App extends React.Component {
           ...prevState.toDos,
           [id]: {
             ...prevState.toDos[id],
-            isCompleted: false
+            iscompleted: false
           }
         }
       };
@@ -134,7 +143,7 @@ export default class App extends React.Component {
           ...prevState.toDos,
           [id]: {
             ...prevState.toDos[id],
-            isCompleted: true
+            iscompleted: true
           }
         }
       };
