@@ -46,6 +46,7 @@ export default class App extends React.Component {
             returnKeyType={"done"}
             autoCorrect={false}
             onSubmitEditing={this._addToDo}
+            underlineColorAndroid={"transparent"}
           />
           <ScrollView contentContainerStyle={styles.todo}>
             {Object.values(toDos)
@@ -76,7 +77,7 @@ export default class App extends React.Component {
       const parsedToDos = JSON.parse(toDos);
       this.setState({
         loadedTodos: true,
-        toDos: parsedToDos
+        toDos: parsedToDos || {}
       });
     } catch (err) {
       console.log(err);
@@ -84,28 +85,29 @@ export default class App extends React.Component {
   };
   _addToDo = () => {
     const { newTodo } = this.state;
-
-    this.setState(prevState => {
-      const ID = uuidv1();
-      const newTodoObject = {
-        [ID]: {
-          id: ID,
-          iscompleted: false,
-          text: newTodo,
-          createdAt: Date.now()
-        }
-      };
-      const newState = {
-        ...prevState,
-        newTodo: "",
-        toDos: {
-          ...prevState.toDos,
-          ...newTodoObject
-        }
-      };
-      this._saveTodos(newState.toDos);
-      return { ...newState };
-    });
+    if (newTodo !== "") {
+      this.setState(prevState => {
+        const ID = uuidv1();
+        const newTodoObject = {
+          [ID]: {
+            id: ID,
+            iscompleted: false,
+            text: newTodo,
+            createdAt: Date.now()
+          }
+        };
+        const newState = {
+          ...prevState,
+          newTodo: "",
+          toDos: {
+            ...prevState.toDos,
+            ...newTodoObject
+          }
+        };
+        this._saveTodos(newState.toDos);
+        return { ...newState };
+      });
+    }
   };
   _deleteTodo = id => {
     this.setState(prevState => {
