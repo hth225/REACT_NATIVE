@@ -11,7 +11,7 @@ import {
   AsyncStorage
 } from "react-native";
 import { AppLoading } from "expo";
-import Todo from "./ToDo";
+import Todo from "./components/ToDo";
 import uuidv1 from "uuid/v1";
 
 const { width, height } = Dimensions.get("window");
