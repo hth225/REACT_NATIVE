@@ -84,7 +84,8 @@ class ToDo extends Component {
               </View>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={() => {
+              onPress={event => {
+                event.stopPropagation;
                 deleteTodo(id);
               }}
             >
@@ -97,7 +98,8 @@ class ToDo extends Component {
       </View>
     );
   }
-  _toggleComplete = () => {
+  _toggleComplete = event => {
+    event.stopPropagation();
     const { iscompleted, uncompleteTodo, completeTodo, id } = this.props;
     if (iscompleted) {
       uncompleteTodo(id);
@@ -105,12 +107,14 @@ class ToDo extends Component {
       completeTodo(id);
     }
   };
-  _startEditing = () => {
+  _startEditing = event => {
+    event.stopPropagation();
     this.setState({
       isEditing: true
     });
   };
-  _finishEditing = () => {
+  _finishEditing = event => {
+    event.stopPropagation();
     const { todoValue } = this.state;
     const { id, updateTodo } = this.props;
     updateTodo(id, todoValue);
