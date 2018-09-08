@@ -55,8 +55,9 @@ const weatherCases = {
   }
 };
 
-function Weather({ weatherName, temp }) {
-  console.log(weatherName);
+function Weather({ weatherName, temp, cityname }) {
+  console.log(cityname);
+  const toDay = new Date();
   return (
     <LinearGradient
       colors={weatherCases[weatherName].colors}
@@ -71,6 +72,11 @@ function Weather({ weatherName, temp }) {
         <Text style={styles.temp}>{temp}˚</Text>
       </View>
       <View style={styles.lower}>
+        
+        <Text style={styles.date}>
+          {toDay.getFullYear()}-{toDay.getMonth() + 1}-{toDay.getDate()}
+        </Text>
+        <Text style={styles.subtitle}>{cityname}</Text>
         <Text style={styles.title}>{weatherCases[weatherName].title}</Text>
         <Text style={styles.subtitle}>
           {weatherCases[weatherName].subtitle}
@@ -82,7 +88,8 @@ function Weather({ weatherName, temp }) {
 
 Weather.proptypes = {
   temp: PropTypes.number.isRequired,
-  weatherName: PropTypes.string.isRequired
+  weatherName: PropTypes.string.isRequired,
+  city: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -112,12 +119,19 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     color: "white",
     marginBottom: 10,
+    marginTop: 20,
     fontWeight: "600"
   },
   subtitle: {
     fontSize: 25,
     backgroundColor: "transparent",
     color: "white"
+  },
+  date: {
+    fontSize: 30,
+    backgroundColor: "transparent",
+    color: "white",
+    fontWeight: "500",
   }
 });
 export default Weather;
