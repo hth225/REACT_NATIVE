@@ -93,7 +93,7 @@ export default class App extends React.Component {
             id: ID,
             iscompleted: false,
             text: newTodo,
-            createdAt: Date.now()
+            createdAt: Date(Date.now())
           }
         };
         const newState = {
